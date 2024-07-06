@@ -11,10 +11,10 @@ class ResumeGenerator():
         # Add "Resume" as a title at the beginning of the document
         self.document.add_heading('Resume', 0)
 
-    def add_personal_info(self, name, email):
-        # Add name and email to the document
+    def add_personal_info(self, name, email, phone):
         self.document.add_paragraph(name)
         self.document.add_paragraph(f"Email: {email}")
+        self.document.add_paragraph(f"Phone: {phone}")
 
     def add_education(self, education_list):
         # Add "Education" section
