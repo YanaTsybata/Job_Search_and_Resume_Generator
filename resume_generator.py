@@ -81,11 +81,11 @@ class ResumeGenerator():
 #example
 if __name__ == "__main__":
     user_info = {
-        'name': 'John Doe',
-        'email': 'john@example.com',
+        'name': 'Example Name',
+        'email': 'exampleemail@example.com',
         'phone': '123-456-7890',
         'education': [
-            {'degree': 'Bachelor', 'field': 'Computer Science', 'institution': 'XYZ University', 'year': '2020'}
+            {'degree': 'Bachelor', 'field': 'Computer Science', 'institution': 'XYZ University', 'year': '2021'}
         ],
         'experience': [
             {
