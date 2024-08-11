@@ -6,6 +6,7 @@ from resume_generator import ResumeGenerator
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
+
 def search_and_save_jobs(job_title, location):
     job_finder = JobFinder()
 
@@ -18,13 +19,14 @@ def search_and_save_jobs(job_title, location):
 
     logger.info(f"Found {len(jobs)} jobs")
 
-    #Saving found vacancies in CSV
+    # Saving found vacancies in CSV
     job_finder.save_jobs_to_csv(jobs, "found_jobs.csv")
 
     return jobs
 
+
 def get_job_details(job_finder, job):
-    #Get detailed information for a specific job
+    # Get detailed information for a specific job
     logger.info(f"Getting details for the job: {job['title']} at {job['company']}")
     job_description = job_finder.parse_job_details(job['url'])
 
@@ -39,8 +41,9 @@ def get_job_details(job_finder, job):
         'description': job_description
     }
 
+
 def generate_resume(resume_generator, user_info, job_details):
-    #Generate a personalized resume
+    # Generate a personalized resume
     logger.info("Generating personalized resume")
     resume_filename = resume_generator.create_resume(user_info, job_details)
     if resume_filename:
@@ -49,6 +52,7 @@ def generate_resume(resume_generator, user_info, job_details):
     else:
         logger.error("Failed to generate resume")
         return None
+
 
 def get_user_info():
     # user info
@@ -71,8 +75,9 @@ def get_user_info():
         'skills': ['Python', 'Django', 'JavaScript', 'SQL']
     }
 
+
 def main():
-    #the job search and resume generation process
+    # the job search and resume generation process
     job_title = "Python Developer"
     location = "New York"
 
@@ -88,7 +93,7 @@ def main():
     user_info = get_user_info()
 
     jobs_details = []
-    for job in jobs[:5]:  # Ограничиваем до 5\10\15 вакансий
+    for job in jobs[:5]:  # limit of 5 vacancies
         job_details = get_job_details(job_finder, job)
         if job_details:
             jobs_details.append(job_details)
@@ -103,6 +108,7 @@ def main():
             print("Failed to create resume")
     else:
         print("No job details available to create resume")
+
 
 if __name__ == "__main__":
     main()

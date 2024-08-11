@@ -1,5 +1,6 @@
 from docx import Document
 
+
 class ResumeGenerator():
     def __init__(self):
         # Create a new empty Word document
@@ -9,7 +10,7 @@ class ResumeGenerator():
         # Add "Resume" as a title at the beginning of the document
         self.document.add_heading('Resume', 0)
 
-        #Add personal info
+        # Add personal info
     def add_personal_info(self, name, email, phone):
         self.document.add_paragraph(name)
         self.document.add_paragraph(f"Email: {email}")
@@ -18,16 +19,16 @@ class ResumeGenerator():
     def add_education(self, education_list):
         # Add "Education" section
         self.document.add_heading('Education', 1)
-        #For each education, add a paragraph with information
+        # For each education, add a paragraph with information
         for edu in education_list:
             p = self.document.add_paragraph()
             p.add_run(f"{edu['degree']} in {edu['field']}").bold = True
             p.add_run(f"\n{edu['institution']}, {edu['year']}")
 
     def add_experience(self, experience_list):
-        #Add "Work Experience" section
+        # Add "Work Experience" section
         self.document.add_heading('Work Experience', 1)
-        #For each job, add a paragraph with information
+        # For each job, add a paragraph with information
         for exp in experience_list:
             p = self.document.add_paragraph()
             p.add_run(f"{exp['position']} at {exp['company']}").bold = True
@@ -49,36 +50,36 @@ class ResumeGenerator():
     def save_resume(self, filename):
         # save resume document to a file
         self.document.save(filename)
-        print(f"Resume saved as: {filename}")  #Add this line for debugging
+        print(f"Resume saved as: {filename}")  # Add this line for debugging
 
     def create_resume(self, user_info, jobs_details):
-        self.create_basic_template()  #Create the basic template
-        self.add_personal_info(user_info['name'], user_info['email'], user_info['phone']) #Add user's personal information
-        self.add_education(user_info['education']) #Add education section
-        self.add_experience(user_info['experience']) #Add work experience section
-        self.add_skills(user_info['skills']) #Add skills section
+        self.create_basic_template()  # Create the basic template
+        self.add_personal_info(user_info['name'], user_info['email'], user_info['phone'])   # Add user's personal information
+        self.add_education(user_info['education'])  # Add education section
+        self.add_experience(user_info['experience'])    # Add work experience section
+        self.add_skills(user_info['skills'])    # Add skills section
 
-        self.document.add_page_break() #Add a page break before job
-        #Add a section for "relevant job opportunities"
+        self.document.add_page_break()   # Add a page break before job
+        # Add a section for "relevant job opportunities"
         self.document.add_heading('Relevant Job Opportunities', level=1)
         self.document.add_paragraph('Below are the job opportunities that match your profile:')
 
-        #Add details for each job opportunity
+        # Add details for each job opportunity
         for job in jobs_details:
             self.document.add_heading(job.get('title', 'Job Title Not Available'), level=2)
             self.document.add_paragraph(f"Company: {job.get('company', 'Not Available')}")
             self.document.add_paragraph(f"Location: {job.get('location', 'Not Available')}")
             self.document.add_paragraph("Job Description:")
             self.document.add_paragraph(job.get('description', 'Description Not Available'))
-            self.document.add_paragraph("---")  #Separator between job listings
+            self.document.add_paragraph("---")  # Separator between job listings
 
-        #Generate filename and save the resume
+        # Generate filename and save the resume
         filename = f"resume_and_jobs_{user_info['name'].replace(' ', '_')}.docx"
         self.save_resume(filename)
         return filename
 
 
-#example
+# example
 if __name__ == "__main__":
     user_info = {
         'name': 'Example Name',
@@ -103,7 +104,7 @@ if __name__ == "__main__":
         'description': 'Looking for a Python developer with experience in web development.'
     }
 
-    #Create and save the resume
+    # Create and save the resume
     generator = ResumeGenerator()
     resume_file = generator.create_resume(user_info, job_details)
     print(f"Resume created: {resume_file}")

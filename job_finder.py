@@ -10,7 +10,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from bs4 import BeautifulSoup
 
-#Set up logging configuration
+# Set up logging configuration
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
@@ -18,12 +18,12 @@ logger = logging.getLogger(__name__)
 class JobFinder:
     def __init__(self):
         self.user_agents = [
-            #List of user agents to rotate for avoiding detection
+            # List of user agents to rotate for avoiding detection
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
             'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Safari/605.1.15',
             'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
         ]
-        #Set up Chrome options for headless browsing
+        # Set up Chrome options for headless browsing
         self.chrome_options = Options()
         self.chrome_options.add_argument("--headless")
         self.chrome_options.add_argument(f"user-agent={random.choice(self.user_agents)}")
@@ -33,7 +33,7 @@ class JobFinder:
         logger.info("JobFinder initialized")
 
     def search_jobs(self, keyword, location):
-        #Search for jobs on Indeed.com based on keyword and location.
+        # Search for jobs on Indeed.com based on keyword and location.
         logger.info(f"Searching for '{keyword}' jobs in '{location}'")
         url = f"https://www.indeed.com/jobs?q={keyword}&l={location}"
         driver = webdriver.Chrome(options=self.chrome_options)
@@ -41,14 +41,14 @@ class JobFinder:
         try:
             logger.info(f"Navigating to URL: {url}")
             driver.get(url)
-            time.sleep(random.uniform(5, 10))  #Wait for page to load
+            time.sleep(random.uniform(5, 10))  # Wait for page to load
 
-            #Check for captcha
+            # Check for captcha
             if "captcha" in driver.current_url.lower():
                 logger.warning("CAPTCHA detected. Please solve it manually and restart the script.")
                 return []
 
-            #List of possible selectors for job listings
+            # List of possible selectors for job listings
             selectors = [
                 (By.CLASS_NAME, "jobsearch-ResultsList"),
                 (By.CLASS_NAME, "job_seen_beacon"),
@@ -56,7 +56,7 @@ class JobFinder:
                 (By.CLASS_NAME, "jobCard_mainContent")
             ]
 
-            #Try to find any of the job listing elements
+            # Try to find any of the job listing elements
             element_found = False
             for selector in selectors:
                 try:
@@ -75,7 +75,7 @@ class JobFinder:
 
             self._scroll_page(driver)
 
-            #Parse the page content
+            # Parse the page content
             soup = BeautifulSoup(driver.page_source, 'html.parser')
             job_cards = soup.find_all('div', class_='job_seen_beacon') or \
                         soup.find_all('div', class_='jobCard_mainContent') or \
@@ -100,7 +100,7 @@ class JobFinder:
             driver.quit()
 
     def _scroll_page(self, driver):
-        #Scroll the page to load more job listings
+        # Scroll the page to load more job listings
         logger.info("Scrolling down the page...")
         last_height = driver.execute_script("return document.body.scrollHeight")
         for _ in range(3):
@@ -112,7 +112,7 @@ class JobFinder:
             last_height = new_height
 
     def _parse_job_card(self, card):
-        #Extract job information from a single job card
+        # Extract job information from a single job card
         title = card.find('h2', class_='jobTitle') or card.find('a', class_='jobtitle')
         company = card.find('span', {'data-testid': 'company-name'}) or card.find('span', class_='company')
         location = card.find('div', {'data-testid': 'text-location'}) or card.find('div', class_='location')
@@ -131,7 +131,7 @@ class JobFinder:
             return None
 
     def parse_job_details(self, url):
-        #Parse detailed job description from the job's URL
+        # Parse detailed job description from the job's URL
         logger.info(f"Parsing job details from: {url}")
         driver = webdriver.Chrome(options=self.chrome_options)
 
@@ -160,7 +160,7 @@ class JobFinder:
             driver.quit()
 
     def save_jobs_to_csv(self, jobs, filename='jobs.csv'):
-        #Save the found jobs to a CSV file
+        # Save the found jobs to a CSV file
         with open(filename, 'w', newline='', encoding='utf-8') as file:
             writer = csv.DictWriter(file, fieldnames=['title', 'company', 'location', 'url'])
             writer.writeheader()
@@ -170,7 +170,7 @@ class JobFinder:
 
 
 if __name__ == "__main__":
-    #example
+    # csv file with job example
     finder = JobFinder()
     jobs = finder.search_jobs("Python Developer", "New York")
 
