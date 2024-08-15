@@ -1,6 +1,7 @@
 This project combines job searching capabilities with an automated resume generator. It's designed to streamline the job application process by finding relevant job listings and creating tailored resumes.
 
 Components
+
 Project files : job_finder.py , resume_generator.py  , main.py
 
 1. job_finder.py
