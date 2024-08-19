@@ -37,6 +37,3 @@ Selenium WebDriver
 BeautifulSoup4
 python-docx
 
-Note
-This project is for educational purposes and demonstrates web scraping, document generation, and process automation in Python. 
-Please use responsibly and in accordance with the terms of service of any websites you interact with.
